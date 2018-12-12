@@ -1,5 +1,5 @@
 const { Client } = require("discord.js");
-const { PREFIX } = require("./config");
+const { TOKEN, PREFIX } = require("./config");
 const ytdl = require(`ytdl-core`);
 var opus = require(`opusscript`);
 
