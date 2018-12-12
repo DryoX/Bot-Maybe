@@ -55,7 +55,7 @@ client.on("message", async msg => {
     }
 
     if(msg.content.startsWith(`${PREFIX}about`)) {
-       msg.channel.send("About", ["This bot is created by Next!", "To invite me on your server", "please use this link", "**[[Invite Me]](https://discordapp.com/api/oauth2/authorize?client_id=522378437621579776&permissions=54001088&scope=bot)"]);
+       msg.channel.send("**[[Invite Me]](https://discordapp.com/api/oauth2/authorize?client_id=522378437621579776&permissions=54001088&scope=bot)**");
     }
 });
 
