@@ -9,7 +9,9 @@ client.on("warn", console.warn);
 
 client.on("error", console.error);
 
-client.on("ready", () => console.log("i'm online :D"));
+client.on("ready", () => {
+    client.user.setActivity("use p!play <link>")
+});
 
 client.on("disconnect", () => console.log("i disconnected"));
 
