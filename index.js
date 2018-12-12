@@ -1,5 +1,5 @@
 const { Client } = require("discord.js");
-const { TOKEN, PREFIX } = require("./config");
+const { PREFIX } = require("./config");
 const ytdl = require(`ytdl-core`);
 var opus = require(`opusscript`);
 
@@ -55,13 +55,8 @@ client.on("message", async msg => {
     }
 
     if(msg.content.startsWith(`${PREFIX}about`)) {
-        let discordembed = new Discord.RichEmbed()
-        .setColor("RANDOM")
-        .addField("About", ["This bot is created by Next!", "To invite me on your server", "please use this link", "**[[Invite Me]](https://discordapp.com/api/oauth2/authorize?client_id=522378437621579776&permissions=54001088&scope=bot)"]);
-
-        return message.channel.send(discordembed);
-
+       msg.channel.send("About", ["This bot is created by Next!", "To invite me on your server", "please use this link", "**[[Invite Me]](https://discordapp.com/api/oauth2/authorize?client_id=522378437621579776&permissions=54001088&scope=bot)"]);
     }
 });
 
-client.login(TOKEN);
+client.login(process.env.BOT_TOKEN);
