@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const prefixes = require("./prefixes.json");
-const mytoken = require("./mytoken.json");
 const ytdl = require("ytdl-core");
 var opus = require("opusscript");
 const actives = [
@@ -95,4 +94,4 @@ const bot = new Discord.Client({disableEveryone: true});
 
 });
 
-    bot.login(mytoken.token)
+    bot.login(process.env.BOT_TOKEN)
