@@ -5,8 +5,9 @@ var opus = require("opusscript");
 const actives = [
     "use p!help",
     "Created by Next",
-    "Version 1.0.3",
-    "Thanks for Invited me"
+    "Update at Tomorow!",
+    "Thanks for Invited me",
+    "Version 1.0.3"
 ]
 
 const bot = new Discord.Client({disableEveryone: true});
