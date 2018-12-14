@@ -7,7 +7,8 @@ const actives = [
     "Created by Next",
     "Update at Tomorow!",
     "Thanks for Invited me",
-    "Version 1.0.3"
+    "Version 1.0.3",
+    "p!help to open commands"
 ]
 
 const bot = new Discord.Client({disableEveryone: true});
