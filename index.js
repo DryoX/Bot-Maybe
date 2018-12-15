@@ -5,7 +5,7 @@ var opus = require("opusscript");
 const actives = [
     "use p!help",
     "Created by Next",
-    "Update at Tomorow!",
+    "Update Cancled!",
     "Thanks for Invited me",
     "Version 1.0.3",
     "p!help to open commands"
