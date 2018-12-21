@@ -9,7 +9,7 @@ const actives = [
     "Created by Next",
     "New Update!",
     "Thanks for Invited me",
-    "Version 1.6 BETA",
+    "Version 1.7 BETA",
     "cd!help to open commands"
 ];
 const retart = [
