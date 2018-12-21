@@ -207,7 +207,7 @@ const bot = new Discord.Client({disableEveryone: true});
             
             if(cmd === `${prefix}bug`){
                 
-                let vbq = args.join(" ");
+                let vbq = argsa.join(" ");
               if(!vbq) return message.channel.send("Any bug report?");
 
               message.channel.send("Your Report Has Been Sended!").then(message => {message.delete(5000)});
