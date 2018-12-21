@@ -131,7 +131,7 @@ const bot = new Discord.Client({disableEveryone: true});
             let myeb = new Discord.RichEmbed()
             .setColor("#39c5dd")
             .setThumbnail(bot.user.avatarURL)
-            .setDescription("**All Commands That I've | Global Prefix is p!**")
+            .setDescription("**All Commands That I've | Global Prefix is cd!**")
             .addField("**Information Command**", ["`help | use this to know all my commands`", "`about | about this bot!`", "`ping | usage: ping`"])
             .addField("**Music Commads**", ["`play | usage: play (link)`", "`stop | usage: stop`", "`skip | usage: skip`"]);
 
