@@ -7,7 +7,7 @@ const actives = [
     "Created by Next",
     "Update Cancled!",
     "Thanks for Invited me",
-    "Version 1.0.3",
+    "Version 1.0.4",
     "p!help to open commands"
 ];
 const retart = [
