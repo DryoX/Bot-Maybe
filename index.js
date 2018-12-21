@@ -3,12 +3,12 @@ const prefixes = require("./prefixes.json");
 const ytdl = require("ytdl-core");
 var opus = require("opusscript");
 const actives = [
-    "use p!help",
+    "Use cd!help",
     "Created by Next",
-    "Update Cancled!",
+    "New Update!",
     "Thanks for Invited me",
-    "Version 1.0.4",
-    "p!help to open commands"
+    "Version 1.5 BETA",
+    "cd!help to open commands"
 ];
 const retart = [
     "meh!",
@@ -16,14 +16,21 @@ const retart = [
     "no! i'm not good",
     "idk!"
 ];
+const queue = new Map();
+const lister = [
+    "Ahaaaa",
+    "Why not!",
+    "Argh",
+    "Stop it!"
+];
 
 const bot = new Discord.Client({disableEveryone: true});
 
     bot.on("ready", async () => {
+        console.log(`Hey There! I'm ${bot.user.username} ready to help!`);
         setInterval(() => {
             const indexed = Math.floor(Math.random() * (actives.length - 1) + 1);
         bot.user.setActivity(actives[indexed]);
-        console.log(`Hey There! I'm ${bot.user.username} ready to help!`);
         }, 4000);
        
     });
@@ -36,6 +43,7 @@ const bot = new Discord.Client({disableEveryone: true});
         let messageArray = message.content.split(" ");
         let cmd = messageArray[0];
         let args = message.content.split(" ");
+        const serverQueue = queue.get(message.guild.id);
 
         if(cmd === `${prefix}play`){
 
@@ -47,36 +55,73 @@ const bot = new Discord.Client({disableEveryone: true});
             }
             if(!permissions.has("SPEAK")) {
                 return message.channel.send("I cant speak!");
+
             }
-            try {
-                var connection = await voiceChannel.join();
-            } catch (error) {
+        
+                const songinfo = await ytdl.getInfo(args[1]);
+                const song = {
+                    title: songinfo.title,
+                    url: songinfo.video_url
+                };
+    
+            if(!serverQueue){
+                const queueConstruct = {
+                    textChannel: message.channel,
+                    voiceChannel: voiceChannel,
+                    connection: null,
+                    songs: [],
+                    volume: 3,
+                    playing: true
+                };
+                queue.set(message.guild.id, queueConstruct);
 
-                console.log("i cant find voice channel!")
-            }  
+                queueConstruct.songs.push(song);
 
-            const dispatcher = connection.playStream(ytdl(args[1]))
-            .on(`end`, () => {
-                voiceChannel.leave();
-            })
-
-            dispatcher.setVolumeLogarithmic(3 / 3);
-
+                try {
+                    var connection = await voiceChannel.join();
+                    queueConstruct.connection = connection;
+                    play(message.guild, queueConstruct.songs[0]);
+                } catch (error) {
+                    
+                    queue.delete(message.guild.id);
+                    console.log("i cant find voice channel!")
+                }           
+            } else {
+                serverQueue.songs.push(song);
+                message.channel.send(`**${song.title}** Okay, Added!`);
+            }
+            
+            if(!serverQueue) {
             let meplay = new Discord.RichEmbed()
-            .setDescription("**Played!**")
+            .setDescription("**Okay!**")
             .setColor("RANDOM")
 
             message.delete().catch(O_o=>{});
             return message.channel.send(meplay).then(message => {message.delete(5000)});
-
+            }
         }
 
+        if(cmd === `${prefix}queue`){
+
+            if(!serverQueue) return message.channel.send("Nothing! its empty!");
+
+            let queuelist = new Discord.RichEmbed()
+            .setColor("RANDOM")
+            .addField("**Information**", "**This command is under development!**");
+
+            return message.channel.send(queuelist).then(message => {message.delete(5000)});
+        }
+
+
         if(cmd === `${prefix}stop`){
-            if(!message.member.voiceChannel) return message.channel.send("You are not in voice channel!");
-        message.member.voiceChannel.leave();
+            if(!serverQueue) return message.channel.send("Uhh? Am i suppost to stop something? because there's no song that i play!").then(message => {message.delete(5000)});
+            if(!message.member.voiceChannel) return message.channel.send("You are not in voice channel!").then(message => {message.delete(5000)});
+            serverQueue.songs = [];
+            serverQueue.connection.dispatcher.end();
         
+            let why = Math.floor(Math.random() * (lister.length - 1) + 1);
             let myembed1 = new Discord.RichEmbed()
-            .setDescription("As You Wished!")
+            .setDescription(lister[why])
             .setColor("RANDOM")
 
             return message.channel.send(myembed1).then(message => {message.delete(5000)});
@@ -85,9 +130,10 @@ const bot = new Discord.Client({disableEveryone: true});
         if(cmd === `${prefix}help`){
             let myeb = new Discord.RichEmbed()
             .setColor("#39c5dd")
+            .setThumbnail(bot.user.avatarURL)
             .setDescription("**All Commands That I've | Global Prefix is p!**")
-            .addField("**Information Command**", ["`help | use this to know all my commands`", "`about | about this bot!`"])
-            .addField("**Music Commads**", ["`play | usage: play (link)`", "`stop | usage: stop`"]);
+            .addField("**Information Command**", ["`help | use this to know all my commands`", "`about | about this bot!`", "`ping | usage: ping`"])
+            .addField("**Music Commads**", ["`play | usage: play (link)`", "`stop | usage: stop`", "`skip | usage: skip`"]);
 
             return message.channel.send(myeb);
         }
@@ -99,8 +145,8 @@ const bot = new Discord.Client({disableEveryone: true});
 
             return message.channel.send(abouta);
         }
-            
-            if(cmd === `${prefix}ping`){
+
+        if(cmd === `${prefix}ping`){
 
             let retarted = Math.floor(Math.random() * (retart.length - 1) + 1);
             let pings = new Discord.RichEmbed()
@@ -112,7 +158,39 @@ const bot = new Discord.Client({disableEveryone: true});
             return message.channel.send(pings).then(message => {message.delete(5000)});
         }
 
+        if(cmd === `${prefix}skip`){
+            if(serverQueue) {
+                serverQueue.connection.dispatcher.end()
+                let skips = new Discord.RichEmbed()
+                .setColor("RANDOM")
+                .setDescription("**Skipped**");
+
+                return message.channel.send(skips).then(message => {message.delete(5000)});
+            }
+            if(!serverQueue) return message.channel.send("Uhh? Am i suppost to play something? because there's no song on my queue list!").then(message => {message.delete(5000)});
+            if(!message.member.voiceChannel) return message.channel.send("You are not in voice channel!").then(message => {message.delete(5000)});
+        }
+
 });
+
+function play(guild, song) {
+    const serverQueue = queue.get(guild.id);
+
+    if(!song) {
+        serverQueue.voiceChannel.leave();
+        queue.delete(guild.id);
+        return;
+    }
+
+    const dispatcher = serverQueue.connection.playStream(ytdl(song.url))
+         .on("end", () => {
+             serverQueue.songs.shift();
+             play(guild, serverQueue.songs[0]);
+         })
+         .on("error", async () => console.log("error"));
+
+         dispatcher.setVolumeLogarithmic(serverQueue.volume / 3);
+}
 
     bot.login(process.env.BOT_TOKEN);
 
