@@ -36,12 +36,20 @@ const bot = new Discord.Client({disableEveryone: true});
     });
 
         bot.on("message", async message => {
-            if(message.author.bot) return undefined;
-            if(message.channel.type === "dm") return undefined;
+            if(message.author.bot) return;
+            if(message.channel.type === "dm") return;
 
-        let prefix = prefixes.prefix;
+            let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8"));
+            if(!prefixes[message.guild.id]){
+              prefixes[message.guild.id] = {
+                prefixes: botconfig.prefix
+              };
+            }
+
+        let prefix = prefixes[message.guild.id].prefixes;
         let messageArray = message.content.split(" ");
         let cmd = messageArray[0];
+        let argsa = messageArray.slice(1);
         let args = message.content.split(" ");
         const serverQueue = queue.get(message.guild.id);
 
@@ -169,6 +177,29 @@ const bot = new Discord.Client({disableEveryone: true});
             }
             if(!serverQueue) return message.channel.send("Uhh? Am i suppost to play something? because there's no song on my queue list!").then(message => {message.delete(5000)});
             if(!message.member.voiceChannel) return message.channel.send("You are not in voice channel!").then(message => {message.delete(5000)});
+        }
+
+        if(cmd === `${prefix}prefix`){
+
+            if(!message.member.hasPermission("MANAGE_SERVER")) return message.reply("Stop it if you dont have any permission");
+            if(!argsa[0] || argsa[0 == "help"]) return message.reply("Usage: prefix <Chose your prefix>");
+
+            let prefixes = JSON.parse(fs.readFileSync("./prefixes.json", "utf8"));
+
+            prefixes[message.guild.id] = {
+            prefixes: argsa[0]
+            };
+
+            fs.writeFile("./prefixes.json", JSON.stringify(prefixes), (err) => {
+            if (err) console.log(err)
+            });
+
+            let sEmbed = new Discord.RichEmbed()
+            .setColor("RANDOM")
+            .setTitle("Prefix Is Set")
+            .setDescription(`Set Prefix To ${argsa[0]}`);
+
+            message.channel.send(sEmbed);
         }
 
 });
