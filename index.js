@@ -9,7 +9,13 @@ const actives = [
     "Thanks for Invited me",
     "Version 1.0.3",
     "p!help to open commands"
-]
+];
+const retart = [
+    "meh!",
+    "yeah! i'm good",
+    "no! i'm not good",
+    "idk!"
+];
 
 const bot = new Discord.Client({disableEveryone: true});
 
@@ -93,7 +99,21 @@ const bot = new Discord.Client({disableEveryone: true});
 
             return message.channel.send(abouta);
         }
+            
+            if(cmd === `${prefix}ping`){
+
+            let retarted = Math.floor(Math.random() * (retart.length - 1) + 1);
+            let pings = new Discord.RichEmbed()
+            .setThumbnail(bot.user.avatarURL)
+            .setColor("#42c8f4")
+            .addField("Ping goes to!", [Math.floor(bot.ping)+`ms!`], true)
+            .addField("Am i feeling good?", retart[retarted], true);
+
+            return message.channel.send(pings).then(message => {message.delete(5000)});
+        }
 
 });
 
-    bot.login(process.env.BOT_TOKEN)
+    bot.login(process.env.BOT_TOKEN);
+
+//if you want to copy this... sure! but not for token stealers
