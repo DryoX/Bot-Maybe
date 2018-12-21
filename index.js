@@ -143,7 +143,7 @@ const bot = new Discord.Client({disableEveryone: true});
             .setThumbnail(bot.user.avatarURL)
             .setDescription("**All Commands That I've | Global Prefix is cd!**")
             .addField("**Information Command**", ["`help | use this to know all my commands`", "`about | about this bot!`", "`ping | usage: ping`", "`bug | usage: bug (report)`"])
-            .addField("**Admin Command**", ["`prefix | usage: prefix (prefix)`"]
+            .addField("**Admin Command**", ["`prefix | usage: prefix (prefix)`"])
             .addField("**Music Commads**", ["`play | usage: play (link)`", "`stop | usage: stop`", "`skip | usage: skip`"]);
 
             return message.channel.send(myeb);
