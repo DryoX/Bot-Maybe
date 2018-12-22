@@ -29,7 +29,7 @@ const lister = [
     "Stop it!"
 ];
 
-const youtube = new YouTube(API_KEY);
+const youtube = new YouTube(process.env.API_KEY);
 
 const bot = new Discord.Client({disableEveryone: true});
 
