@@ -1,3 +1,4 @@
 {
-  "prefix": "cd!"
+  "prefix": "cd!",
+  "apikey": "GOOGLE_API_KEY"
 }
