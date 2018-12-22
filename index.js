@@ -5,7 +5,7 @@ const Util = require("discord.js");
 const botconfig = require("./botconfig.json");
 //const prefixes = require("./prefixes.json");
 const ytdl = require("ytdl-core");
-const tokens = require("./allthings.json");
+//const tokens = require("./allthings.json");
 var opus = require("opusscript");
 const actives = [
     "Leave this!",
@@ -344,4 +344,4 @@ function play(guild, song) {
          serverQueue.textChannel.send(`Now its time for **${song.title}**`);
 }
 
-    bot.login(tokens.token);
+    bot.login(botconfig.token);
