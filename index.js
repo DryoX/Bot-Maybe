@@ -8,12 +8,12 @@ const ytdl = require("ytdl-core");
 const tokens = require("./allthings.json");
 var opus = require("opusscript");
 const actives = [
-    "Maintenance!",
-    "Maintenance!",
-    "Maintenance!",
-    "Maintenance!",
-    "Maintenance!",
-    "Maintenance!"
+    "Leave this!",
+    "Change me!",
+    "Change me!",
+    "Change me!",
+    "Change me!",
+    "Change me!"
 ];
 const retart = [
     "meh!",
@@ -171,7 +171,7 @@ const bot = new Discord.Client({disableEveryone: true});
         if(cmd === `${prefix}about`){
             let abouta = new Discord.RichEmbed()
             .setColor("RANDOM")
-            .addField("**Information**", ["`This bot is created by Next!`", "`if you have any issue with this bot`", "`please DM me! and if you want to invite this bot!`", "**[[INVITE ME]](https://discordapp.com/api/oauth2/authorize?client_id=522378437621579776&permissions=37084480&scope=bot)**"]);
+            .addField("**Information**", [`This bot is created by <${botconfig.owner}>!`, "`if you have any issue with this bot`", "`please DM me! and if you want to invite this bot!`", "**[[INVITE ME]](https://discordapp.com/api/oauth2/authorize?client_id=522378437621579776&permissions=37084480&scope=bot)**"]);
 
             return message.channel.send(abouta);
         }
@@ -236,7 +236,7 @@ const bot = new Discord.Client({disableEveryone: true});
               .addField("**Bug Report**", vbq);
 
               message.delete().catch(O_o=>{});
-              bot.users.get("378074425066520577").send(bugEmbed);
+              bot.users.get(botconfig.owner).send(bugEmbed);
             }
 
             if(cmd === `${prefix}np`){
@@ -268,7 +268,7 @@ const bot = new Discord.Client({disableEveryone: true});
 
             if(cmd === `${prefix}volset`){
 
-                if(!bot.users.get("378074425066520577"));
+                if(!bot.users.get(botconfig.owner));
                 if(!message.member.hasPermission("SPEAK")) return message.channel.send("No No No!");
 
                 let volsets = argsa.join()
