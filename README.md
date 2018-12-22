@@ -1,11 +1,11 @@
 # INFORMATION
 
-* This bot is created by me!
+* This bot is modified by me!
 * Design by Crawl with Youtube channel:https://www.youtube.com/channel/UCEBwAP6zmJ5-buW-Cc2FB6Q
 * Learn how to create a bot from {TheSouceCode} Youtube Channel!
 * Link:https://www.youtube.com/channel/UCNXt2MrZaqfIBknamqwzeXA
 
-This bot is modifed by my self!
+This bot is modified by my self!
 
 Change Log!
 * From Client to Bot
