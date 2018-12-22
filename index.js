@@ -344,4 +344,4 @@ function play(guild, song) {
          serverQueue.textChannel.send(`Now its time for **${song.title}**`);
 }
 
-    bot.login(process.end.BOT_TOKEN);
+    bot.login(process.env.BOT_TOKEN);
