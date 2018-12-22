@@ -9,11 +9,11 @@ const ytdl = require("ytdl-core");
 var opus = require("opusscript");
 const actives = [
     "Maintenance!",
-    "New Update!",
-    "Thanks for invited me!",
-    "cd!help for commands!",
-    "Version 2.0 BETA",
-    "Created by Next"
+    "Maintenance!",
+    "Maintenance!",
+    "Maintenance!",
+    "Maintenance!",
+    "Maintenance!"
 ];
 const retart = [
     "meh!",
@@ -26,7 +26,7 @@ const lister = [
     "Ahaaaa",
     "Why not!",
     "Argh",
-    "No No Noo!"
+    "Stop it!"
 ];
 
 const youtube = new YouTube(botconfig.apikey);
