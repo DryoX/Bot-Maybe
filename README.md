@@ -33,6 +33,9 @@ its not hard at all!
   * When its done simpley fill all the missing parts at the bot, such as the token,api,ect!
   
 2.Run the bot!
+
+I've made the bat file! you can use that! bot if you want to create one, then ok!
+
   * make a note file
   * write this!
   
