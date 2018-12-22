@@ -1,16 +1,19 @@
 const Discord = require("discord.js");
+const YouTube = require("simple-youtube-api");
 const fs = require("fs");
+const Util = require("discord.js");
 const botconfig = require("./botconfig.json");
 //const prefixes = require("./prefixes.json");
 const ytdl = require("ytdl-core");
+//const tokens = require("./allthings.json");
 var opus = require("opusscript");
 const actives = [
-    "Use cd!help",
-    "Created by Next",
+    "Maintenance!",
     "New Update!",
-    "Thanks for Invited me",
-    "Version 1.7 BETA",
-    "cd!help to open commands"
+    "Thanks for invited me!",
+    "cd!help for commands!",
+    "Version 2.0 BETA",
+    "Created by Next"
 ];
 const retart = [
     "meh!",
@@ -23,8 +26,10 @@ const lister = [
     "Ahaaaa",
     "Why not!",
     "Argh",
-    "Stop it!"
+    "No No Noo!"
 ];
+
+const youtube = new YouTube(botconfig.apikey);
 
 const bot = new Discord.Client({disableEveryone: true});
 
@@ -53,6 +58,8 @@ const bot = new Discord.Client({disableEveryone: true});
         let cmd = messageArray[0];
         let argsa = messageArray.slice(1);
         let args = message.content.split(" ");
+        const url = args[1] ? args[1].replace(/<(.-)>/g, `$1`) : ``;
+        const searchString = args.slice(1).join(" ");
         const serverQueue = queue.get(message.guild.id);
 
         if(cmd === `${prefix}play`){
@@ -68,10 +75,21 @@ const bot = new Discord.Client({disableEveryone: true});
 
             }
         
-                const songinfo = await ytdl.getInfo(args[1]);
+            try {
+                var video = await youtube.getVideo(url);
+            }   catch (error) {
+                try {
+                    var videos = await youtube.searchVideos(searchString, 1);
+                    var video = await youtube.getVideoByID(videos[0].id);
+                } catch (error) {
+                    return message.channel.send("Cannot find that video!");
+                }
+            }
+
                 const song = {
-                    title: songinfo.title,
-                    url: songinfo.video_url
+                    id: video.id,
+                    title: video.title,
+                    url: `https://www.youtube.com/watch?v=${video.id}`
                 };
     
             if(!serverQueue){
@@ -117,9 +135,10 @@ const bot = new Discord.Client({disableEveryone: true});
 
             let queuelist = new Discord.RichEmbed()
             .setColor("RANDOM")
-            .addField("**Information**", "**This command is under development!**");
+            .addField("**Here's what i got**", `${serverQueue.songs.map(song => `**--** ${song.title}`).join(`\n`)}`)
+            .addField("Now Playing", `${serverQueue.songs[0].title}`);
 
-            return message.channel.send(queuelist).then(message => {message.delete(5000)});
+            return message.channel.send(queuelist);
         }
 
 
@@ -143,8 +162,8 @@ const bot = new Discord.Client({disableEveryone: true});
             .setThumbnail(bot.user.avatarURL)
             .setDescription("**All Commands That I've | Global Prefix is cd!**")
             .addField("**Information Command**", ["`help | use this to know all my commands`", "`about | about this bot!`", "`ping | usage: ping`", "`bug | usage: bug (report)`"])
-            .addField("**Admin Command**", ["`prefix | usage: prefix (prefix)`"])
-            .addField("**Music Commads**", ["`play | usage: play (link)`", "`stop | usage: stop`", "`skip | usage: skip`"]);
+            .addField("**Admin Commands**", ["`prefix | usage: prefix (prefix)`", "`volset | usage: volset (volume)`"])
+            .addField("**Music Commads**", ["`play | usage: play (song/link)`", "`stop | usage: stop`", "`skip | usage: skip`", "`pause | usage: pause`", "`resume | usage: resume`", "`nowplaying | usage: np`", "`volume | usage: volume`", "`queue | usage: queue`"]);
 
             return message.channel.send(myeb);
         }
@@ -220,6 +239,88 @@ const bot = new Discord.Client({disableEveryone: true});
               bot.users.get("378074425066520577").send(bugEmbed);
             }
 
+            if(cmd === `${prefix}np`){
+                if(!serverQueue) return message.channel.send("Uhh? Am i suppost to play something? because there's no song that i play!").then(message => {message.delete(5000)});
+                
+                let nplay = new Discord.RichEmbed()
+                .setColor("RANDOM")
+                .addField("Now Playing", `**${serverQueue.songs[0].title}**`);
+
+                return message.channel.send(nplay);
+            }
+
+            if(cmd === `${prefix}volume`){
+
+                if(!serverQueue) return message.channel.send("Uhh? Am i suppost to set something? because there's no song that i play!").then(message => {message.delete(5000)});
+
+                if(!args[1]){
+
+                    let cvol = new Discord.RichEmbed()
+                    .setColor("RANDOM")
+                    .addField("**My volume is at**", `${serverQueue.volume}`);
+
+                    return message.channel.send(cvol);
+                }
+
+                serverQueue.volume = args[1];
+                
+            }
+
+            if(cmd === `${prefix}volset`){
+
+                if(!bot.users.get("378074425066520577"));
+                if(!message.member.hasPermission("SPEAK")) return message.channel.send("No No No!");
+
+                let volsets = argsa.join()
+
+                if(!serverQueue) return message.channel.send("Uhh? Am i suppost to set something? because there's no song that i play!").then(message => {message.delete(5000)});
+
+                serverQueue.connection.dispatcher.setVolumeLogarithmic(args[1] / 3); {
+
+                    let volset = new Discord.RichEmbed()
+                    .setColor("RANDOM")
+                    .addField("Volume set to", volsets);
+
+                    return message.channel.send(volset);
+                }
+            }
+
+            if(cmd === `${prefix}pause`){
+
+                if(serverQueue && serverQueue.playing) {
+
+                    serverQueue.playing = false;
+                serverQueue.connection.dispatcher.pause();
+
+                    let pausea = new Discord.RichEmbed()
+                        .setColor("RANDOM")
+                        .setDescription("**Paused!**");
+
+                        return message.channel.send(pausea).then(message => {message.delete(5000)});
+                }
+
+               return message.channel.send("Uhh? Am i suppost to resume something? because there's no song that i play!").then(message => {message.delete(5000)});
+    
+            }
+
+            if(cmd === `${prefix}resume`){
+                
+                if(serverQueue && !serverQueue.playing) {
+                    serverQueue.playing = true;
+                    serverQueue.connection.dispatcher.resume();
+
+                    let resumea = new Discord.RichEmbed()
+                    .setColor('RANDOM')
+                    .setDescription("**Resume!**");
+
+                    return message.channel.send(resumea).then(message => {message.delete(5000)});
+
+                }
+
+                return message.channel.send("Uhh? Am i suppost to resume something? because there's no song that i play!").then(message => {message.delete(5000)});
+
+            }
+
 });
 
 function play(guild, song) {
@@ -239,8 +340,8 @@ function play(guild, song) {
          .on("error", async () => console.log("error"));
 
          dispatcher.setVolumeLogarithmic(serverQueue.volume / 3);
+
+         serverQueue.textChannel.send(`Now its time for **${song.title}**`);
 }
 
-    bot.login(process.env.BOT_TOKEN);
-
-//if you want to copy this... sure! but not for token stealers
+    bot.login(process.end.BOT_TOKEN);
