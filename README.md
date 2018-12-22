@@ -8,11 +8,11 @@
 This bot is modified by my self!
 
 Change Log!
-* From Client to Bot
-* From StartsWith to Cmd
+* From Client to Bot!
+* From StartsWith to Cmd!
 * Added more command!
 
-I've modified this bot so people can use it easyly!
+I've modified this bot so people can use it easily!
 
 its not hard at all!
 
