@@ -1,4 +1,6 @@
 {
   "prefix": "YOUR PREFIX HERE",
-  "apikey": "YOUTUBE API KEY V3"
+  "apikey": "YOUTUBE API KEY V3",
+  "owner": "YOUR ID",
+  "token": "YOUR BOT TOKEN"
 }
