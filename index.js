@@ -15,18 +15,22 @@ const actives = [
     "Change me!",
     "Change me!"
 ];
+
+//When prefix!ping runned, this message will pops up!
 const retart = [
-    "meh!",
-    "yeah! i'm good",
-    "no! i'm not good",
-    "idk!"
+    "Leave This!",
+    "Change Me!",
+    "Change Me!",
+    "Change Me!"
 ];
 const queue = new Map();
+
+//When prefix!stop runned, this message will pops up!
 const lister = [
-    "Ahaaaa",
-    "Why not!",
-    "Argh",
-    "Stop it!"
+    "Leave This!",
+    "Change Me!",
+    "Change Me!",
+    "Change Me!"
 ];
 
 const youtube = new YouTube(botconfig.apikey);
