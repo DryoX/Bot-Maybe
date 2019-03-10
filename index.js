@@ -3,6 +3,7 @@ const YouTube = require("simple-youtube-api");
 const fs = require("fs");
 const Util = require("discord.js");
 const botconfig = require("./botconfig.json");
+const owner = require("./botconfig.json");
 //const prefixes = require("./prefixes.json");
 const ytdl = require("ytdl-core");
 //const tokens = require("./allthings.json");
